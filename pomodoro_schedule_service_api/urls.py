@@ -4,5 +4,5 @@ from .views import (
 )
 
 urlpatterns = [
-    path('api', ScheduleApiView.as_view()),
+    path('api/', ScheduleApiView.as_view()),
 ]
