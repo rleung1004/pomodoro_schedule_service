@@ -1,8 +1,8 @@
-from django.urls import path, include
+from django.urls import path
 from .views import (
-    ScheduleApiView,
+    update_schedule,
 )
 
 urlpatterns = [
-    path('api/', ScheduleApiView.as_view()),
+    path('update/', update_schedule, name="update"),
 ]

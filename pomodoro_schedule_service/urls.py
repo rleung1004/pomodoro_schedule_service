@@ -19,6 +19,5 @@ from pomodoro_schedule_service_api import urls as schedule_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
     path('schedule/', include(schedule_urls)),
 ]

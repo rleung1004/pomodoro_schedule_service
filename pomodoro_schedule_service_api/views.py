@@ -1,16 +1,12 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from django.http import JsonResponse
 from pomodoro_schedule_service_api import models
+from django.views.decorators.csrf import csrf_exempt
 
 
-class ScheduleApiView(APIView):
-
-    def update(self, request, *args, **kwargs):
-        '''
-        Create/Update the Schedule for given user id
-        '''
-        user_id = request.data.get('userId')
+@csrf_exempt
+def update_schedule(request):
+    if request.method == 'POST':
+        user_id = request.POST.get("user_id", "")
         user_commitments = models.Commitment.objects.filter(userId=user_id)
         user_goals = models.Goal.objects.filter(userId=user_id)
         # for testing print requests
@@ -36,4 +32,4 @@ class ScheduleApiView(APIView):
 
         # add algorithm to create schedule and return json obj
         # also save schedule to db.
-        return requests
+        return JsonResponse(requests)

@@ -59,7 +59,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "143.198.156.138", "localhost"]
+
 
 
 # Application definition
@@ -114,9 +115,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pomodoro',
-        'USER': 'admin',
+        'USER': 'shagun',
         'PASSWORD': get_env_variable('DB_PASSWORD'),
-        'HOST': 'localhost',
+        'HOST': '143.198.156.138',
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
