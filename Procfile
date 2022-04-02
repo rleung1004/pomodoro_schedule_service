@@ -1,1 +1,1 @@
-web:python manage.py runserver
+web: gunicorn pomodoro_schedule_service.wsgi --log-file -
