@@ -36,5 +36,3 @@ def update_schedule(request):
         return HttpResponse(requests, content_type='application/json')
 
 
-def temp(request):
-    return FileResponse("E998E800D06A2E1DDE4AF6D313F473FB.txt")

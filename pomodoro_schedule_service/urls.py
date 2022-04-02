@@ -16,10 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from pomodoro_schedule_service_api import urls as schedule_urls
-from pomodoro_schedule_service_api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('schedule/', include(schedule_urls)),
-    path('.well-known/pki-validation/', views.temp, name='.well-known/pki-validation/')
 ]
