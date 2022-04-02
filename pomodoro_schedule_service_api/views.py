@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+from django.core import serializers
+from django.http import HttpResponse
 from pomodoro_schedule_service_api import models
 from django.views.decorators.csrf import csrf_exempt
 
@@ -10,7 +11,7 @@ def update_schedule(request):
         user_commitments = models.Commitment.objects.filter(userId=user_id)
         user_goals = models.Goal.objects.filter(userId=user_id)
         # for testing print requests
-        requests = models.Request.objects.all()
+        requests = serializers.serialize('json', models.Request.objects.all())
         print(requests)
 
         # SAVE SCHEDULE #
@@ -32,4 +33,4 @@ def update_schedule(request):
 
         # add algorithm to create schedule and return json obj
         # also save schedule to db.
-        return JsonResponse(requests)
+        return HttpResponse(requests, content_type='application/json')

@@ -1,0 +1,1 @@
+web:gunicorn pomodoro_schedule_service.wsgi
