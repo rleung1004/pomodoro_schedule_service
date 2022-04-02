@@ -235,3 +235,7 @@ def test_schedule_1():
     sched = Scheduler.create_schedule(goals=goals, commitments=commitments, weekly_config=weekly_config)
     # Set a debug breakpoint line #235, step one step, then look at the structure of the schedule object after it returns
     print("beans")
+
+
+if __name__ == '__main__':
+    test_schedule_1()
