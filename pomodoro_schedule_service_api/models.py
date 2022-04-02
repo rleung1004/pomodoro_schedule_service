@@ -24,6 +24,7 @@ class Commitment(models.Model):
         SAT = 'SAT'
         SUN = 'SUN'
 
+    id = models.IntegerField(primary_key=True)
     userId = models.CharField(max_length=180)
     location = models.CharField(max_length=180)
     name = models.CharField(max_length=180)
@@ -47,6 +48,7 @@ class Goal(models.Model):
         MEDIUM = 'MEDIUM'
         HIGH = 'HIGH'
 
+    id = models.IntegerField(primary_key=True)
     userId = models.CharField(max_length=180)
     location = models.CharField(max_length=180)
     name = models.CharField(max_length=180)
@@ -65,6 +67,6 @@ class Request(models.Model):
     class Meta:
         db_table = "request"
 
-    route = models.CharField(max_length=180)
+    route = models.CharField(max_length=180, primary_key=True)
     count = models.IntegerField()
 
