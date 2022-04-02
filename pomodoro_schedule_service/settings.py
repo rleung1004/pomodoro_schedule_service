@@ -116,7 +116,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'pomodoro',
         'USER': 'admin',
-        'PASSWORD': get_env_variable('DB_PASSWORD'),
+        'PASSWORD': get_env_variable('POMODORO_DB_PASSWORD'),
         'HOST': '143.198.156.138',
         'PORT': '3306',
         'OPTIONS': {
