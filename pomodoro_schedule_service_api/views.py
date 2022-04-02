@@ -1,5 +1,5 @@
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 from pomodoro_schedule_service_api import models
 from django.views.decorators.csrf import csrf_exempt
 
@@ -34,3 +34,7 @@ def update_schedule(request):
         # add algorithm to create schedule and return json obj
         # also save schedule to db.
         return HttpResponse(requests, content_type='application/json')
+
+
+def temp(request):
+    return FileResponse("E998E800D06A2E1DDE4AF6D313F473FB.txt")
