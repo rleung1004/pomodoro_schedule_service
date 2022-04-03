@@ -11,7 +11,7 @@ def update_schedule(request):
         user_id = request.POST.get("user_id", "")
 
         # delete old schedule #
-        models.Schedule.objects.filter(user_id=user_id).delete()
+        models.Schedule.objects.filter(userId=user_id).delete()
 
         user_commitments = list(models.Commitment.objects.all())
         user_goals = list(models.Goal.objects.all())
