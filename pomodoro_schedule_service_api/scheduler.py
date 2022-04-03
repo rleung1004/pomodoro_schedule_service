@@ -116,7 +116,6 @@ class Scheduler:
                                         block_size=day_config['block_size'], breaks=day_config['breaks'],
                                         interleaves=day_config['interleaves'])
             current_day += timedelta(days=1)
-
         return schedule
 
 
