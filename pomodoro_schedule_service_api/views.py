@@ -1,7 +1,12 @@
+import json
+from datetime import datetime
+
 from django.core import serializers
 from django.http import HttpResponse, FileResponse
 from pomodoro_schedule_service_api import models
 from django.views.decorators.csrf import csrf_exempt
+
+from pomodoro_schedule_service_api.scheduler import Scheduler
 
 
 @csrf_exempt
@@ -13,26 +18,11 @@ def update_schedule(request):
         # for testing print requests
         user_config = models.UserWeeklyConfig.objects.filter(user_id="userID")
 
-        #
-        # Entry.objects.bulk_create([
-        #     Entry(headline="Django 1.0 Released"),
-        #     Entry(headline="Django 1.1 Announced"),
-        #     Entry(headline="Breaking: Django is awesome")
-        # ])
-        names = []
-        models.Commitment.objects.bulk_create(
-            models.Commitment(
-                userId=user_id,
-
-                name="Morning Routine",
-                repeat=json.dumps([x for x in range(7)]),
-                startTime=datetime.strptime('2022-04-2 8:30:0', "%Y-%m-%d %H:%M:%S"),
-                endDate=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S"),
-                minutes=30,
-
-            )
-        )
-
+        priorities = set([goal.priority for goal in user_goals])
+        user_goals = {priority: [goal for goal in user_goals if goal.priority == priority] for priority in priorities}
+        user_config = {int(k): v for k, v in user_config.items()}
+        sched = Scheduler.create_schedule(goals=user_goals, commitments=user_commitments, weekly_config=user_config)
+        print("beans")
         # SAVE SCHEDULE #
         # schedule_table = models.Schedule()
         # schedule_table.userId = user_id

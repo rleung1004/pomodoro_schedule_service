@@ -4,7 +4,6 @@ from sortedcontainers import SortedDict
 from pomodoro_schedule_service_api.models import WorkBlock
 
 
-
 class Scheduler:
     @staticmethod
     def _add_commitments(schedule: dict, commitments: list, _datetime: datetime) -> SortedDict:
@@ -119,88 +118,6 @@ class Scheduler:
             current_day += timedelta(days=1)
 
         return schedule
-
-def test_schedule_1():
-    start_times = [360, 420, 420, 360, 480, 600, 600]
-    end_times = [1200, 1200, 1200, 1200, 1200, 1080, 1080]
-    breaks = [[10, 30], [10, 30], [10, 30], [10, 30], [10, 30], [60, 120], [60, 120]]
-    interleaves = [4, 4, 4, 4, 4, 2, 2]
-    block_size = [50, 50, 50, 60, 60, 40, 30]
-    week_keys = ["start", "end", "breaks", "interleaves", "block_size"]
-
-    goals_list = [
-        Goal(name="Big Data", total_time=1200, priority=0,
-             end=datetime.strptime('2022-04-15', "%Y-%m-%d").date(),
-             min_task_time=15),
-        Goal(name="ML", total_time=1200, priority=0,
-             end=datetime.strptime('2022-04-13', "%Y-%m-%d").date(),
-             min_task_time=15),
-        Goal(name="OS", total_time=1200, priority=0,
-             end=datetime.strptime('2022-04-17', "%Y-%m-%d").date(),
-             min_task_time=15),
-        Goal(name="BLAW", total_time=1200, priority=0,
-             end=datetime.strptime('2022-04-18', "%Y-%m-%d").date(),
-             min_task_time=15),
-        Goal(name="Projects", total_time=600, priority=0,
-             end=datetime.strptime('2022-04-8', "%Y-%m-%d").date(),
-             min_task_time=15),
-        Goal(name="Practice ML", total_time=600, priority=1,
-             end=datetime.strptime('2022-12-8', "%Y-%m-%d").date(),
-             min_task_time=15)
-    ]
-
-    commitments = [
-        Commitment(name="Morning Routine",
-                   start=datetime.strptime('2022-04-2 8:30:0', "%Y-%m-%d %H:%M:%S"),
-                   minutes=30,
-                   end=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").date(),
-                   repeat=[x for x in range(7)]),
-        Commitment(name="SCREAM",
-                   start=datetime.strptime('2022-04-2 8:30:0', "%Y-%m-%d %H:%M:%S"),
-                   minutes=30,
-                   end=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").date(),
-                   repeat=[x for x in range(7)]),
-        Commitment(name="Play With Eve",
-                   start=datetime.strptime('2022-04-1 13:30:0', "%Y-%m-%d %H:%M:%S"),
-                   minutes=45,
-                   end=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").date(),
-                   repeat=[0, 1, 4, 5, 6]),
-        Commitment(name="Feed Eve",
-                   start=datetime.strptime('2022-04-1 15:30:0', "%Y-%m-%d %H:%M:%S"),
-                   minutes=20,
-                   end=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").date(),
-                   repeat=[2]),
-        Commitment(name="Eat Lunch",
-                   start=datetime.strptime('2022-04-1 12:00:0', "%Y-%m-%d %H:%M:%S"),
-                   minutes=20,
-                   end=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").date(),
-                   repeat=[x for x in range(7)]),
-        Commitment(name="Eat Dinner",
-                   start=datetime.strptime('2022-04-1 18:00:0', "%Y-%m-%d %H:%M:%S"),
-                   minutes=20,
-                   end=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").date(),
-                   repeat=[x for x in range(7)])
-    ]
-
-    weekly_config = {day: {key: values[i] for i, key in enumerate(week_keys)} for day, values in
-                     enumerate(zip(start_times, end_times, breaks, interleaves, block_size))}
-
-    weekly_config_example_structure = {int: {"start": int,
-                                             "end": int,
-                                             "breaks": [],
-                                             "interleaves": int}}
-    # Weekly config explanation
-    # the int key is the same for the enum of the days of the week (0-6, monday to sunday)
-    # the start and end times, I have them as minutes in ints (so like 10am is 600)
-    # breaks is list of ints, minutes for each break in the list
-    # interleaves is just an int for the number of goals to interlave
-
-    goals = {priority: [goal for goal in goals_list if goal.priority == priority] for priority in range(2)}
-    # goals = {int (priority starting from 0, where 0 is highest priority): [goals at that priority]}
-
-    sched = Scheduler.create_schedule(goals=goals, commitments=commitments, weekly_config=weekly_config)
-    # Set a debug breakpoint line #235, step one step, then look at the structure of the schedule object after it returns
-    print("beans")
 
 
 if __name__ == '__main__':

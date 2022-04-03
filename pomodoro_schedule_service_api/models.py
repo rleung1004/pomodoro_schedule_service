@@ -7,14 +7,28 @@ class Goal(models.Model):
     class Meta:
         db_table = "goal"
 
-    def get_end_date(self):
+    @property
+    def end(self):
         return datetime.strptime(self.endDate, "%Y-%m-%d %H:%M:%S").date()
+
+    @property
+    def total_time(self):
+        return self.totalTime
+
+    @property
+    def time_left(self):
+        return self.timeLeft
+
+    @property
+    def min_task_time(self):
+        return self.minTaskTime
 
     id = models.CharField(primary_key=True, max_length=36)
     userId = models.CharField(max_length=180)
     location = models.CharField(max_length=180)
-    name = models.CharField(max_length=180)
     notes = models.CharField(max_length=180)
+
+    name = models.CharField(max_length=180)
     totalTime = models.IntegerField()
     timeLeft = models.IntegerField()
     priority = models.IntegerField()
@@ -29,10 +43,12 @@ class Commitment(models.Model):
     class Meta:
         db_table = "commitment"
 
-    def get_start_time(self):
+    @property
+    def start(self):
         return datetime.strptime(self.startTime, "%Y-%m-%d %H:%M:%S")
 
-    def get_end_date(self):
+    @property
+    def end(self):
         return datetime.strptime(self.endDate, "%Y-%m-%d %H:%M:%S").date()
 
     @property
@@ -50,6 +66,18 @@ class Commitment(models.Model):
     startTime = models.CharField(max_length=180)
     endDate = models.CharField(max_length=180)
     minutes = models.IntegerField()
+
+
+class WorkBlock:
+    def __init__(self, name: str, date: datetime, minutes: int, is_goal: bool, priority: int = None):
+        self.name = name
+        self.date = date
+        self.minutes = minutes
+        self.is_goal = is_goal
+        self.priority = priority
+
+    def __lt__(self, other):
+        return self.date < other.date
 
 
 class UserWeeklyConfig(models.Model):
