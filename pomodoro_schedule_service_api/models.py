@@ -88,6 +88,10 @@ class Schedule(models.Model):
     class Meta:
         db_table = "schedule"
 
+    @property
+    def is_goal(self):
+        return self.isGoal
+
     id = models.AutoField(primary_key=True)
     userId = models.CharField(max_length=180)
     date = models.CharField(max_length=180)
@@ -111,5 +115,3 @@ class UserConfig(models.Model):
     breaks = models.JSONField(default=[10, 30])
     blockSize = models.IntegerField(default=15)
     interleaves = models.IntegerField(default=3)
-
-
