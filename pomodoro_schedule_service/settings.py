@@ -14,6 +14,9 @@ from pathlib import Path
 from io import StringIO
 import configparser
 import os
+from django.db.backends.mysql.base import DatabaseWrapper
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime'
+DatabaseWrapper.data_types['DateField'] = 'date'
 
 SITE_ROOT = "pomodoro_schedule_service"
 

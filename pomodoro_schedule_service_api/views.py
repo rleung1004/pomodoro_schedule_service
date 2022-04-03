@@ -8,16 +8,36 @@ from django.views.decorators.csrf import csrf_exempt
 def update_schedule(request):
     if request.method == 'POST':
         user_id = request.POST.get("user_id", "")
-        user_commitments = models.Commitment.objects.filter(userId=user_id)
-        user_goals = models.Goal.objects.filter(userId=user_id)
+        user_commitments = models.Commitment.objects.all()
+        user_goals = models.Goal.objects.all()
         # for testing print requests
-        requests = serializers.serialize('json', models.Request.objects.all())
-        print(requests)
+        config_list = list(models.UserWeeklyConfig.objects.all())
+        print("TEST: ", config_list[0].weekly_config["0"])
+
+        #
+        # Entry.objects.bulk_create([
+        #     Entry(headline="Django 1.0 Released"),
+        #     Entry(headline="Django 1.1 Announced"),
+        #     Entry(headline="Breaking: Django is awesome")
+        # ])
+        names = []
+        models.Commitment.objects.bulk_create(
+            models.Commitment(
+                userId=user_id,
+
+                name="Morning Routine",
+                repeat=json.dumps([x for x in range(7)]),
+                startTime=datetime.strptime('2022-04-2 8:30:0', "%Y-%m-%d %H:%M:%S"),
+                endDate=datetime.strptime('2022-10-3 8:30:0', "%Y-%m-%d %H:%M:%S").strftime("%Y-%m-%d %H:%M:%S"),
+                minutes=30,
+
+            )
+        )
 
         # SAVE SCHEDULE #
         # schedule_table = models.Schedule()
-        # schedule_table.userId = ""
-        # schedule_table.scheduleObj = ""
+        # schedule_table.userId = user_id
+        # schedule_table.scheduleObj = "JSON OBJ"
         # schedule_table.save()
         # SAVE SCHEDULE #
 
@@ -33,6 +53,4 @@ def update_schedule(request):
 
         # add algorithm to create schedule and return json obj
         # also save schedule to db.
-        return HttpResponse(requests, content_type='application/json')
-
-
+        return HttpResponse(config_list[0].weekly_config, content_type='application/json')
