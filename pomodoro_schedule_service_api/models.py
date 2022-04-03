@@ -1,6 +1,5 @@
 from django.db import models
 from datetime import datetime
-import json
 
 
 class Goal(models.Model):
@@ -103,8 +102,9 @@ class Schedule(models.Model):
 class UserConfig(models.Model):
     class Meta:
         db_table = "user_config"
+        unique_together = (('userId', 'dayOfWeek'),)
 
-    userId = models.CharField(max_length=180, primary_key=True)
+    userId = models.CharField(max_length=180)
     dayOfWeek = models.IntegerField()
     start = models.IntegerField()
     end = models.IntegerField()
