@@ -27,7 +27,6 @@ def update_schedule(request):
         user_goals = {priority: [goal for goal in user_goals if goal.priority == priority] for priority in priorities}
         schedule = Scheduler.create_schedule(goals=user_goals, commitments=user_commitments, weekly_config=user_config)
 
-
         for sorted_dict in schedule.values():
             for time, work_block in sorted_dict.items():
                 schedule_table = models.Schedule()
