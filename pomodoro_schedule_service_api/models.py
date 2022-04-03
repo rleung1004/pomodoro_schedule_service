@@ -19,6 +19,10 @@ class Goal(models.Model):
     def time_left(self):
         return self.timeLeft
 
+    @time_left.setter
+    def time_left(self, value):
+        self.timeLeft = value
+
     @property
     def min_task_time(self):
         return self.minTaskTime
@@ -34,7 +38,7 @@ class Goal(models.Model):
     priority = models.IntegerField()
     endDate = models.CharField(max_length=180)
     minTaskTime = models.IntegerField(default=15)
-    ignoreDeadline = models.BooleanField()
+    ignoreDeadline = models.BooleanField(default=False)
 
     def __eq__(self, other):
         return self.name == other.name
@@ -81,20 +85,24 @@ class WorkBlock:
         return self.date < other.date
 
 
+class Schedule(models.Model):
+    class Meta:
+        db_table = "schedule"
+
+    id = models.AutoField(primary_key=True)
+    userId = models.CharField(max_length=180)
+    date = models.CharField(max_length=180)
+    time = models.CharField(max_length=180)
+
+    name = models.CharField(max_length=180)
+    minutes = models.IntegerField()
+    is_goal = models.BooleanField()
+    priority = models.IntegerField()
+
+
 class UserWeeklyConfig(models.Model):
     class Meta:
         db_table = "user_weekly_config"
 
     user_id = models.CharField(max_length=180, primary_key=True)
     weekly_config = models.JSONField()
-
-
-class Schedule(models.Model):
-    class Meta:
-        db_table = "schedule"
-
-    def get_work_blocks(self):
-        return json.loads(self.work_blocks)
-
-    user_id = models.CharField(max_length=180, primary_key=True)
-    work_blocks = models.JSONField()

@@ -62,8 +62,8 @@ class Scheduler:
                                                              minutes=goal_time,
                                                              is_goal=True,
                                                              priority=goal_data.priority)
-
                         goal_data.time_left -= goal_time
+
                         if goal_data.time_left < goal_data.min_task_time:
                             del goal_list[goal_i]
 
@@ -90,7 +90,7 @@ class Scheduler:
     def create_schedule(goals: dict, commitments: list, weekly_config: dict):
         schedule = {}
         current_day = datetime.now()
-        goals = {k: [g for g in v if (g.ignore_deadline or g.end >= current_day.date())
+        goals = {k: [g for g in v if (g.ignoreDeadline or g.end >= current_day.date())
                      and g.time_left >= g.min_task_time] for k, v in goals.items()}
         sorted_goals = {
             k: sorted(list(v), key=lambda goal: (goal.end - current_day.date()).total_seconds() / goal.time_left)
