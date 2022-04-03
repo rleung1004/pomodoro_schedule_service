@@ -37,7 +37,7 @@ def update_schedule(request):
                 schedule_table.name = work_block.name
                 schedule_table.minutes = work_block.minutes
                 schedule_table.is_goal = work_block.is_goal
-                schedule_table.priority = work_block.priority if work_block.priority else -1
+                schedule_table.priority = work_block.priority
                 schedule_table.save()
 
         # models.Commitment.objects.bulk_create(
