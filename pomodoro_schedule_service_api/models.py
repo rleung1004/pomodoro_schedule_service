@@ -35,8 +35,9 @@ class Commitment(models.Model):
     def get_end_date(self):
         return datetime.strptime(self.endDate, "%Y-%m-%d %H:%M:%S").date()
 
-    def get_repeats(self):
-        return json.loads(self.repeat)
+    @property
+    def repeat(self):
+        return json.loads(self.repeats)
 
     id = models.CharField(primary_key=True, max_length=36)
     userId = models.CharField(max_length=180)
@@ -45,7 +46,7 @@ class Commitment(models.Model):
     url = models.CharField(max_length=180)
 
     name = models.CharField(max_length=180)
-    repeat = models.JSONField()
+    repeats = models.JSONField()
     startTime = models.CharField(max_length=180)
     endDate = models.CharField(max_length=180)
     minutes = models.IntegerField()

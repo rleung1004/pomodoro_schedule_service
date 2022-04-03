@@ -8,11 +8,10 @@ from django.views.decorators.csrf import csrf_exempt
 def update_schedule(request):
     if request.method == 'POST':
         user_id = request.POST.get("user_id", "")
-        user_commitments = models.Commitment.objects.all()
-        user_goals = models.Goal.objects.all()
+        user_commitments = list(models.Commitment.objects.all())
+        user_goals = list(models.Goal.objects.all())
         # for testing print requests
-        config_list = list(models.UserWeeklyConfig.objects.all())
-        print("TEST: ", config_list[0].weekly_config["0"])
+        user_config = models.UserWeeklyConfig.objects.filter(user_id="userID")
 
         #
         # Entry.objects.bulk_create([
@@ -53,4 +52,4 @@ def update_schedule(request):
 
         # add algorithm to create schedule and return json obj
         # also save schedule to db.
-        return HttpResponse(config_list[0].weekly_config, content_type='application/json')
+        return HttpResponse(user_config, content_type='application/json')

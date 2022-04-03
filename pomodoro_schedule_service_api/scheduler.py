@@ -1,41 +1,8 @@
 from datetime import datetime, timedelta
 from sortedcontainers import SortedDict
 
+from pomodoro_schedule_service_api.models import WorkBlock
 
-class Goal:
-    def __init__(self, name: str, total_time: int, priority: int, end: datetime.date, ignore_deadline: bool = False,
-                 min_task_time: int = 15):
-        self.name = name
-        self.total_time = total_time  # total time in minutes so 10 hours is 600
-        self.time_left = total_time  # also in minutes
-        self.priority = priority
-        self.end = end
-        self.ignore_deadline = ignore_deadline
-        self.min_task_time = min_task_time
-
-    def __eq__(self, other):
-        return self.name == other.name
-
-
-class WorkBlock:
-    def __init__(self, name: str, date: datetime, minutes: int, is_goal: bool, priority: int = None):
-        self.name = name
-        self.date = date
-        self.minutes = minutes
-        self.is_goal = is_goal
-        self.priority = priority
-
-    def __lt__(self, other):
-        return self.date < other.date
-
-
-class Commitment:
-    def __init__(self, name: str, start: datetime, minutes: int, end: datetime.date, repeat: list = None):
-        self.name = name
-        self.start = start
-        self.minutes = minutes
-        self.end = end
-        self.repeat = repeat  # list of ints corresponding to which day to repeat (0-6, monday to sunday)
 
 
 class Scheduler:
@@ -153,7 +120,6 @@ class Scheduler:
 
         return schedule
 
-
 def test_schedule_1():
     start_times = [360, 420, 420, 360, 480, 600, 600]
     end_times = [1200, 1200, 1200, 1200, 1200, 1080, 1080]
@@ -238,4 +204,4 @@ def test_schedule_1():
 
 
 if __name__ == '__main__':
-    test_schedule_1()
+    pass
