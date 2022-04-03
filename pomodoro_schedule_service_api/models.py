@@ -58,7 +58,7 @@ class Commitment(models.Model):
 
     @property
     def repeat(self):
-        return json.loads(self.repeats)
+        return self.repeats
 
     id = models.CharField(primary_key=True, max_length=36)
     userId = models.CharField(max_length=180)

@@ -14,9 +14,11 @@ class Scheduler:
                     (commitment.start.date() == _datetime.date() or _datetime.weekday() in commitment.repeat):
                 start_time = (commitment.start + timedelta(seconds=1)).time() \
                     if commitment.start.time() in schedule[_datetime.date()] else commitment.start.time()
-                schedule[_datetime.date()][start_time] = WorkBlock(commitment.name,
-                                                                   commitment.start,
-                                                                   commitment.minutes, False)
+                schedule[_datetime.date()][start_time] = WorkBlock(name=commitment.name,
+                                                                   date=commitment.start,
+                                                                   minutes=commitment.minutes,
+                                                                   is_goal=False,
+                                                                   priority=-1)
         return schedule[_datetime.date()]
 
     @staticmethod
@@ -76,7 +78,6 @@ class Scheduler:
                                                              minutes=breaks[break_i],
                                                              is_goal=False,
                                                              priority=-1)
-
                         current_time += breaks[break_i]
                         time_used += breaks[break_i]
                         break_i = 0 if break_i + 1 >= len(breaks) else break_i + 1
@@ -116,7 +117,6 @@ class Scheduler:
                                         block_size=day_config['block_size'], breaks=day_config['breaks'],
                                         interleaves=day_config['interleaves'])
             current_day += timedelta(days=1)
-
         return schedule
 
 
