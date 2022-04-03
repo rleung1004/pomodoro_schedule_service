@@ -34,6 +34,7 @@ class Goal(models.Model):
     priority = models.IntegerField()
     endDate = models.CharField(max_length=180)
     minTaskTime = models.IntegerField(default=15)
+    ignoreDeadline = models.BooleanField()
 
     def __eq__(self, other):
         return self.name == other.name
