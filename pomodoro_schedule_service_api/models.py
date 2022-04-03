@@ -96,13 +96,20 @@ class Schedule(models.Model):
 
     name = models.CharField(max_length=180)
     minutes = models.IntegerField()
-    is_goal = models.BooleanField()
+    isGoal = models.BooleanField()
     priority = models.IntegerField()
 
 
-class UserWeeklyConfig(models.Model):
+class UserConfig(models.Model):
     class Meta:
-        db_table = "user_weekly_config"
+        db_table = "user_config"
 
-    user_id = models.CharField(max_length=180, primary_key=True)
-    weekly_config = models.JSONField()
+    userId = models.CharField(max_length=180, primary_key=True)
+    dayOfWeek = models.IntegerField()
+    start = models.IntegerField()
+    end = models.IntegerField()
+    breaks = models.JSONField(default=[10, 30])
+    blockSize = models.IntegerField(default=15)
+    interleaves = models.IntegerField(default=3)
+
+
