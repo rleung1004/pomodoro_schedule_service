@@ -13,6 +13,10 @@ from pomodoro_schedule_service_api.scheduler import Scheduler
 def update_schedule(request):
     if request.method == 'POST':
         user_id = request.POST.get("user_id", "")
+
+        # delete old schedule #
+        models.Schedule.objects.filter(user_id=user_id).delete()
+
         user_commitments = list(models.Commitment.objects.all())
         user_goals = list(models.Goal.objects.all())
         # for testing print requests
