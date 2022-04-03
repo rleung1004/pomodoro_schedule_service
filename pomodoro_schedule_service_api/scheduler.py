@@ -46,8 +46,10 @@ class Scheduler:
                 if len(goal_list) > 0:
                     time_available = free_block - time_used - breaks[break_i]
                     time_available = block_size if time_available > block_size else time_available
-                    goal_i = interleave_i if time_available > goal_list[interleave_i].min_task_time \
-                        else next((i for i, g in enumerate(goal_list) if time_available > g.min_task_time), -1)
+                    min_task_time = goal_list[interleave_i].min_task_time
+                    time_available = min_task_time if time_available < min_task_time else time_available
+                    goal_i = interleave_i if time_available >= min_task_time \
+                        else next((i for i, g in enumerate(goal_list) if time_available >= g.min_task_time), -1)
 
                     if goal_i < 0:
                         time_used += free_block
