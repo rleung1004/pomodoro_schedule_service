@@ -96,11 +96,11 @@ class Schedule(models.Model):
     userId = models.CharField(max_length=180)
     date = models.CharField(max_length=180)
     time = models.CharField(max_length=180)
-
     name = models.CharField(max_length=180)
     minutes = models.IntegerField()
     isGoal = models.BooleanField()
     priority = models.IntegerField()
+    taskID = models.CharField(max_length=180)
 
 
 class UserConfig(models.Model):
