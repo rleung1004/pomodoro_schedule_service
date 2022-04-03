@@ -20,7 +20,7 @@ def update_schedule(request):
         user_commitments = list(models.Commitment.objects.filter(userId=user_id))
         user_goals = list(models.Goal.objects.filter(userId=user_id))
         # for testing print requests
-        user_config = list(models.UserWeeklyConfig.objects.filter(user_id="1"))[0].weekly_config
+        user_config = list(models.UserWeeklyConfig.objects.filter(user_id=f"{user_id}"))[0].weekly_config
         user_config = json.loads(user_config)
 
         priorities = set([goal.priority for goal in user_goals])
