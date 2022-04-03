@@ -13,8 +13,8 @@ def update_schedule(request):
         # delete old schedule #
         models.Schedule.objects.filter(userId=user_id).delete()
 
-        user_commitments = list(models.Commitment.objects.all())
-        user_goals = list(models.Goal.objects.all())
+        user_commitments = list(models.Commitment.objects.filter(user_id=user_id))
+        user_goals = list(models.Goal.objects.filter(user_id=user_id))
         user_config = list(models.UserConfig.objects.filter(user_id=user_id))
         user_config = dict({
             {day_config.day, {
