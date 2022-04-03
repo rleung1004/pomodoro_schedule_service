@@ -18,7 +18,7 @@ class Scheduler:
                                                                    date=commitment.start,
                                                                    minutes=commitment.minutes,
                                                                    is_goal=False,
-                                                                   priority=-1)
+                                                                   priority=-1, task_id=commitment.id)
         return schedule[_datetime.date()]
 
     @staticmethod
@@ -65,7 +65,7 @@ class Scheduler:
                                                              date=date,
                                                              minutes=goal_time,
                                                              is_goal=True,
-                                                             priority=goal_data.priority)
+                                                             priority=goal_data.priority, task_id=goal_data.id)
                         goal_data.time_left -= goal_time
 
                         if goal_data.time_left < goal_data.min_task_time:
@@ -79,7 +79,7 @@ class Scheduler:
                                                              date=date,
                                                              minutes=breaks[break_i],
                                                              is_goal=False,
-                                                             priority=-1)
+                                                             priority=-1, task_id="break")
                         current_time += breaks[break_i]
                         time_used += breaks[break_i]
                         break_i = 0 if break_i + 1 >= len(breaks) else break_i + 1

@@ -37,6 +37,7 @@ def update_schedule(request):
                 schedule_table.minutes = work_block.minutes
                 schedule_table.isGoal = work_block.is_goal
                 schedule_table.priority = work_block.priority
+                schedule_table.taskID = work_block.task_id
                 schedule_table.save()
 
         return HttpResponse(status=201)

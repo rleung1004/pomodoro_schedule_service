@@ -73,12 +73,13 @@ class Commitment(models.Model):
 
 
 class WorkBlock:
-    def __init__(self, name: str, date: datetime, minutes: int, is_goal: bool, priority: int = None):
+    def __init__(self, name: str, date: datetime, minutes: int, is_goal: bool, priority: int = None, task_id: str = ""):
         self.name = name
         self.date = date
         self.minutes = minutes
         self.is_goal = is_goal
         self.priority = priority
+        self.task_id = task_id
 
     def __lt__(self, other):
         return self.date < other.date
