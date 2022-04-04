@@ -5,6 +5,15 @@ from django.http import HttpResponse
 from pomodoro_schedule_service.settings import ALLOWED_HOST_NAME
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class NeedToLoginMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -18,6 +27,7 @@ class NeedToLoginMiddleware:
             "server_fqdn": socket.gethostbyname(socket.getfqdn()),
             "request_method": request.method,
             "request_path": request.get_full_path(),
+            "ip": get_client_ip(request)
         }
 
         req_body = json.loads(request.body.decode("utf-8")) if request.body else {}
