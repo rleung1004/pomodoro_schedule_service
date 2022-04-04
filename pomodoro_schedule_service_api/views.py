@@ -1,3 +1,4 @@
+import json
 from django.http import HttpResponse
 from pomodoro_schedule_service_api import models
 from django.views.decorators.csrf import csrf_exempt
@@ -8,6 +9,8 @@ from pomodoro_schedule_service_api.scheduler import Scheduler
 def update_schedule(request):
     if request.method == 'POST':
         user_id = request.POST.get("user_id", "")
+        if user_id == "":
+            user_id = json.loads(request.body.decode('utf-8'))["user_id"]
 
         # delete old schedule #
         models.Schedule.objects.filter(userId=user_id).delete()
