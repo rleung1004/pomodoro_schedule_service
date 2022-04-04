@@ -28,10 +28,9 @@ class NeedToLoginMiddleware:
         socket_host_name = socket.gethostbyname(socket.gethostname())
 
         for host_name in ALLOWED_HOST_NAME:
-            authenticated_by_host = host_name == socket_host_name
-            if not authenticated_by_host:
-                socket.gethostbyname(socket.gethostname())
-                socket.gethostbyname(socket.getfqdn())
-                return HttpResponse(f'Unauthorized host:{request.get_host()}', status=401)
-        response = self.get_response(request)
-        return response
+            authenticated_by_host = (host_name == socket_host_name)
+            if authenticated_by_host:
+                response = self.get_response(request)
+                return response
+
+        return HttpResponse(f'Unauthorized host:{socket_host_name}', status=401)
