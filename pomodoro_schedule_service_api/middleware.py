@@ -1,4 +1,4 @@
-import re
+import json
 import socket
 
 from django.http import HttpResponse
@@ -11,19 +11,31 @@ class NeedToLoginMiddleware:
         # One-time configuration and initialization.
 
     def __call__(self, request):
-        response = self.get_response(request)
+
+        log_data = {
+            "remote_address": request.META["REMOTE_ADDR"],
+            "server_hostname": socket.gethostname(),
+            "server_fqdn": socket.gethostbyname(socket.getfqdn()),
+            "request_method": request.method,
+            "request_path": request.get_full_path(),
+        }
+
+        req_body = json.loads(request.body.decode("utf-8")) if request.body else {}
+        log_data["request_body"] = req_body
+
+        print(log_data)
         user_ip = request.META['REMOTE_ADDR']
         socket_host_name = socket.gethostbyname(socket.gethostname())
         socket_host_fqdn = socket.getfqdn()
+
         for ip in ALLOWED_IP_BLOCKS:
-            authenticated_by_ip = re.compile(ip).match(user_ip) or\
-                                  re.compile(ip).match(socket_host_name) or\
-                                  re.compile(ip).match(socket_host_fqdn)
+            authenticated_by_ip = ip == user_ip or\
+                                  ip == socket_host_name or\
+                                  ip == socket_host_fqdn
             if not authenticated_by_ip:
                 # one or both the following will work depending on your scenario
                 socket.gethostbyname(socket.gethostname())
                 socket.gethostbyname(socket.getfqdn())
-                return HttpResponse(f'host:{request.get_host()} '
-                                    f'socket gethost:{socket.gethostbyname(socket.gethostname())} '
-                                    f'socket getfqdn{socket.gethostbyname(socket.getfqdn())}', status=401)
+                return HttpResponse(f'Unauthorized host:{request.get_host()}', status=401)
+        response = self.get_response(request)
         return response

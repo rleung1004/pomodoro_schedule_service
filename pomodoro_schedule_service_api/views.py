@@ -1,4 +1,6 @@
 import json
+import socket
+from django.db.models import F
 from django.http import HttpResponse
 from pomodoro_schedule_service_api import models
 from django.views.decorators.csrf import csrf_exempt
@@ -16,8 +18,7 @@ def update_schedule(request):
         models.Schedule.objects.filter(userId=user_id).delete()
 
         user_commitments = list(models.Commitment.objects.filter(userId=user_id))
-        min_task_time = models.Goal.objects.filter(userId=user_id).values('minTaskTime')
-        user_goals = list(models.Goal.objects.filter(userId=user_id, timeLeft__gte=min_task_time))
+        user_goals = list(models.Goal.objects.filter(userId=user_id, timeLeft__gte=F('minTaskTime')))
         user_config_list = list(models.UserConfig.objects.filter(userId=user_id))
         user_config = {
             day_config.dayOfWeek: {
