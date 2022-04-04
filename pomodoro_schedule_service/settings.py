@@ -82,6 +82,9 @@ INSTALLED_APPS = [
     'pomodoro_schedule_service_api'
 ]
 
+ALLOWED_IP_BLOCKS = ['143.198.156.138']
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -90,6 +93,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pomodoro_schedule_service_api.middleware.NeedToLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'pomodoro_schedule_service.urls'
