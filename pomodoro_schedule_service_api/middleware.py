@@ -25,12 +25,12 @@ class NeedToLoginMiddleware:
 
         print(log_data)
 
-        socket_host_name = socket.gethostbyname(socket.gethostname())
+        socket_fqdn = socket.gethostbyname(socket.getfqdn())
 
         for host_name in ALLOWED_HOST_NAME:
-            authenticated_by_host = (host_name == socket_host_name)
+            authenticated_by_host = (host_name == socket_fqdn)
             if authenticated_by_host:
                 response = self.get_response(request)
                 return response
 
-        return HttpResponse(f'Unauthorized host:{socket_host_name}', status=401)
+        return HttpResponse(f'Unauthorized fqdn:{socket_fqdn}', status=401)

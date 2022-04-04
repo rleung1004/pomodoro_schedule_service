@@ -82,7 +82,7 @@ INSTALLED_APPS = [
     'pomodoro_schedule_service_api'
 ]
 
-ALLOWED_HOST_NAME = [get_env_variable('API_GATEWAY_HOSTNAME')]
+ALLOWED_HOST_NAME = [get_env_variable('API_GATEWAY_FQDN')]
 
 
 MIDDLEWARE = [
