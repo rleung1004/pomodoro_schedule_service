@@ -13,8 +13,12 @@ class NeedToLoginMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         user_ip = request.META['REMOTE_ADDR']
+        socket_host_name = socket.gethostbyname(socket.gethostname())
+        socket_host_fqdn = socket.getfqdn()
         for ip in ALLOWED_IP_BLOCKS:
-            authenticated_by_ip = re.compile(ip).match(user_ip)
+            authenticated_by_ip = re.compile(ip).match(user_ip) or\
+                                  re.compile(ip).match(socket_host_name) or\
+                                  re.compile(ip).match(socket_host_fqdn)
             if not authenticated_by_ip:
                 # one or both the following will work depending on your scenario
                 socket.gethostbyname(socket.gethostname())
