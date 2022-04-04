@@ -10,11 +10,11 @@ def update_schedule(request):
         user_id = request.POST.get("user_id", "")
 
         # delete old schedule #
-        models.Schedule.objects.filter(userId=user_id.replace("%23", "#")).delete()
+        models.Schedule.objects.filter(userId=user_id).delete()
 
-        user_commitments = list(models.Commitment.objects.filter(userId=user_id.replace("%23", "#")))
-        user_goals = list(models.Goal.objects.filter(userId=user_id.replace("%23", "#")))
-        user_config_list = list(models.UserConfig.objects.filter(userId=user_id.replace("%23", "#")))
+        user_commitments = list(models.Commitment.objects.filter(userId=user_id))
+        user_goals = list(models.Goal.objects.filter(userId=user_id))
+        user_config_list = list(models.UserConfig.objects.filter(userId=user_id))
         user_config = {
             day_config.dayOfWeek: {
                 "end": day_config.end, "start": day_config.start,
