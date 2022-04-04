@@ -1,4 +1,5 @@
 import re
+import socket
 
 from django.http import HttpResponse
 from pomodoro_schedule_service.settings import ALLOWED_IP_BLOCKS
@@ -15,5 +16,10 @@ class NeedToLoginMiddleware:
         for ip in ALLOWED_IP_BLOCKS:
             authenticated_by_ip = re.compile(ip).match(user_ip)
             if not authenticated_by_ip:
-                return HttpResponse(f'Unauthorized {user_ip}', status=401)
+                # one or both the following will work depending on your scenario
+                socket.gethostbyname(socket.gethostname())
+                socket.gethostbyname(socket.getfqdn())
+                return HttpResponse(f'Unauthorized \nhost:{request.get_host()} '
+                                    f'\nsocket gethost:{socket.gethostbyname(socket.gethostname())} '
+                                    f'\nsocket getfqdn{socket.gethostbyname(socket.getfqdn())}', status=401)
         return response
