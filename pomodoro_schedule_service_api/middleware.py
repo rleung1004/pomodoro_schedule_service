@@ -15,5 +15,5 @@ class NeedToLoginMiddleware:
         for ip in ALLOWED_IP_BLOCKS:
             authenticated_by_ip = re.compile(ip).match(user_ip)
             if not authenticated_by_ip:
-                return HttpResponse('Unauthorized', status=401)
+                return HttpResponse(f'Unauthorized {user_ip}', status=401)
         return response
