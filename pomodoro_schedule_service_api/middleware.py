@@ -2,7 +2,7 @@ import json
 import socket
 
 from django.http import HttpResponse
-from pomodoro_schedule_service.settings import ALLOWED_HOST_NAME
+from pomodoro_schedule_service.settings import ALLOWED_IP_NAME
 
 
 def get_client_ip(request):
@@ -37,10 +37,10 @@ class NeedToLoginMiddleware:
 
         socket_fqdn = socket.gethostbyname(socket.getfqdn())
 
-        for host_name in ALLOWED_HOST_NAME:
-            authenticated_by_host = (host_name == socket_fqdn)
+        for ip in ALLOWED_IP_NAME:
+            authenticated_by_host = (ip == get_client_ip(request))
             if authenticated_by_host:
                 response = self.get_response(request)
                 return response
 
-        return HttpResponse(f'Unauthorized fqdn:{socket_fqdn}', status=401)
+        return HttpResponse(f'Unauthorized ip:{get_client_ip(request)}', status=401)
