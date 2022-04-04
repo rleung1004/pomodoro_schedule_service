@@ -19,7 +19,7 @@ class NeedToLoginMiddleware:
                 # one or both the following will work depending on your scenario
                 socket.gethostbyname(socket.gethostname())
                 socket.gethostbyname(socket.getfqdn())
-                return HttpResponse(f'Unauthorized \nhost:{request.get_host()} '
-                                    f'\nsocket gethost:{socket.gethostbyname(socket.gethostname())} '
-                                    f'\nsocket getfqdn{socket.gethostbyname(socket.getfqdn())}', status=401)
+                return HttpResponse(f'host:{request.get_host()} '
+                                    f'socket gethost:{socket.gethostbyname(socket.gethostname())} '
+                                    f'socket getfqdn{socket.gethostbyname(socket.getfqdn())}', status=401)
         return response
