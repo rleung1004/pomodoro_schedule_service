@@ -15,7 +15,9 @@ class Scheduler:
                 start_time = (commitment.start + timedelta(seconds=1)).time() \
                     if commitment.start.time() in schedule[_datetime.date()] else commitment.start.time()
                 schedule[_datetime.date()][start_time] = WorkBlock(name=commitment.name,
-                                                                   date=commitment.start,
+                                                                   date=datetime.strptime(
+                                                                       f"{_datetime.date()} {start_time}",
+                                                                       "%Y-%m-%d %H:%M:%S"),
                                                                    minutes=commitment.minutes,
                                                                    is_goal=False,
                                                                    priority=-1, task_id=commitment.id)
